@@ -1,8 +1,8 @@
 # AI-Based Email Spam and Phishing Detection System Using NLP and Machine Learning
 
-**Short name:** Email Spam & Phishing Filter
-**Author:** Yash Yadav
-**Status:** 🚧 In Development
+**Short name:** Email Spam & Phishing Filter  
+**Author:** Yash Yadav  
+**Status:** ✅ Implementation Complete — Awaiting Dataset Download and Training
 
 ---
 
@@ -11,169 +11,144 @@
 1. [Problem Statement](#problem-statement)
 2. [Objectives](#objectives)
 3. [Features](#features)
-4. [Architecture](#architecture)
+4. [System Architecture](#system-architecture)
 5. [Technology Stack](#technology-stack)
-6. [Dataset](#dataset)
-7. [Data Preprocessing](#data-preprocessing)
-8. [Feature Engineering](#feature-engineering)
-9. [ML Models](#ml-models)
-10. [Evaluation Methodology](#evaluation-methodology)
-11. [Screenshots](#screenshots)
-12. [Installation](#installation)
-13. [Running Locally](#running-locally)
-14. [Deployment](#deployment)
-15. [Project Limitations](#project-limitations)
-16. [Future Scope](#future-scope)
-17. [License](#license)
+6. [Folder Structure](#folder-structure)
+7. [Installation](#installation)
+8. [Dataset Sources and Download Instructions](#dataset-sources-and-download-instructions)
+9. [Dataset Preparation](#dataset-preparation)
+10. [EDA](#exploratory-data-analysis)
+11. [Training](#training)
+12. [Evaluation](#evaluation)
+13. [Running the Application](#running-the-application)
+14. [Testing](#testing)
+15. [Dataset Statistics](#dataset-statistics)
+16. [Model Results](#model-results)
+17. [Security Considerations](#security-considerations)
+18. [Project Limitations](#project-limitations)
+19. [Deployment Instructions](#deployment-instructions)
+20. [Future Improvements](#future-improvements)
+21. [License](#license)
 
 ---
 
 ## Problem Statement
 
-> _This section will be completed after dataset collection and model evaluation._
-
-Email remains the most common attack vector for cybercrime. Phishing emails — which impersonate trusted entities to steal credentials or financial information — are often misclassified by simple binary spam filters. This project builds a three-class classifier (Legitimate / Spam / Phishing) that incorporates both NLP-based text features and cybersecurity-oriented heuristic features to improve phishing detection accuracy.
+Email remains the most common attack vector for cybercrime. Simple binary spam filters cannot reliably identify phishing emails — messages that impersonate trusted entities to steal credentials or financial information. This project builds a three-class classifier that categorises each email as **Legitimate**, **Spam**, or **Phishing**, using both NLP-based TF-IDF text features and a separate cybersecurity heuristic risk engine.
 
 ---
 
 ## Objectives
 
-1. Collect, merge, and clean publicly available labeled email datasets (legitimate, spam, phishing).
+1. Collect, merge, and clean publicly available labelled email datasets.
 2. Build a reproducible NLP preprocessing pipeline that preserves phishing-relevant signals.
 3. Extract TF-IDF text features combined with cybersecurity-specific heuristic features.
-4. Train, compare, and select the best model from Naive Bayes, Logistic Regression, and Linear SVM.
-5. Build a phishing risk engine that produces a risk level and human-readable explanation.
+4. Train and compare Naive Bayes, Logistic Regression, and Linear SVM.
+5. Build a separate phishing risk engine that produces a risk level and human-readable explanation.
 6. Deliver a professional multi-page Streamlit web interface.
-7. Write a unit and functional test suite.
-8. Document fully and deploy to Streamlit Community Cloud.
+7. Write a comprehensive unit and functional test suite.
+8. Document and prepare for Streamlit Community Cloud deployment.
 
 ---
 
 ## Features
 
 - ✅ Three-class classification: Legitimate / Spam / Phishing
-- ✅ TF-IDF text features (unigrams + bigrams)
-- ✅ Cybersecurity heuristic features (URL analysis, urgency language, credential keywords, etc.)
+- ✅ TF-IDF text features (unigrams + bigrams, up to 10,000 features)
+- ✅ 14 cybersecurity heuristic features (URL analysis, urgency language, credential keywords, etc.)
 - ✅ Phishing risk engine: LOW / MEDIUM / HIGH with indicator list and explanation
-- ✅ Model confidence where technically supported
-- ✅ Multi-page Streamlit interface
+- ✅ Model confidence when supported (CalibratedClassifierCV)
+- ✅ Multi-page Streamlit interface with quick example buttons
 - ✅ Model evaluation: accuracy, precision, recall, F1, confusion matrix
-- ✅ No URLs are visited or executed — analysis is text-only
+- ✅ No URLs are visited, no HTML is executed, no emails are stored
 
 ---
 
-## Architecture
-
-> _Architecture diagram will be added after implementation._
+## System Architecture
 
 ```
 User Input (Subject + Body)
         ↓
   Text Preprocessing
+  (HTML strip → URL/email tokens → lowercase → punctuation → stopwords)
         ↓
-  TF-IDF Vectorizer  +  Security Feature Extractor
+  TF-IDF Vectorizer (unigrams+bigrams)  +  Security Feature Extractor (14 features)
         ↓
-  Trained ML Model (best of: MNB / LR / LinearSVC)
+  Trained ML Model (best of: MNB / LR / LinearSVC-Calibrated)
         ↓
-  Phishing Risk Engine (heuristic — separate from ML)
+  Phishing Risk Engine (heuristic — completely separate from ML)
         ↓
-  Result: label + risk_level + confidence + indicators + explanation
+  Result: ml_label + risk_level + confidence + indicators + explanation
 ```
 
 ---
 
 ## Technology Stack
 
-| Category | Library / Tool | Version |
-|----------|---------------|---------|
-| Language | Python | 3.11+ |
-| Data processing | pandas, NumPy | See requirements.txt |
-| Machine Learning | scikit-learn | See requirements.txt |
-| NLP | NLTK, scikit-learn TF-IDF | See requirements.txt |
-| HTML parsing | BeautifulSoup4 | See requirements.txt |
-| Visualization | Matplotlib, Seaborn | See requirements.txt |
-| Model persistence | joblib | See requirements.txt |
-| Web application | Streamlit | See requirements.txt |
-| Testing | pytest | See requirements.txt |
-| Version control | Git / GitHub | — |
-| Deployment | Streamlit Community Cloud | — |
+| Category | Tool | Notes |
+|---|---|---|
+| Language | Python 3.11+ | |
+| Data processing | pandas, NumPy | |
+| Machine Learning | scikit-learn | TF-IDF, MNB, LR, LinearSVC |
+| HTML parsing | BeautifulSoup4 | Text extraction only, no execution |
+| Model persistence | joblib | |
+| Visualisation | Matplotlib | EDA figures |
+| Web application | Streamlit | |
+| Testing | pytest | 47 unit tests |
+| Version control | Git / GitHub | |
+| Deployment | Streamlit Community Cloud | |
 
 ---
 
-## Dataset
+## Folder Structure
 
-> _This section will be completed after datasets are downloaded and verified._
-
-The following public datasets are candidates for use in this project. Actual records used, verified licenses, and download dates will be recorded here after dataset preparation.
-
-| Dataset | Source | Classes | License | Records Used | Accessed |
-|---------|--------|---------|---------|-------------|---------|
-| SpamAssassin Public Corpus | spamassassin.apache.org | spam / ham | _To be verified_ | _TBD_ | _TBD_ |
-| Enron Email Dataset | _Mirror URL TBD_ | ham | _To be verified_ | _TBD_ | _TBD_ |
-| Nazario Phishing Corpus | monkey.org/~jose/phishing | phishing | _To be verified_ | _TBD_ | _TBD_ |
-| CSDMC2010 Spam Corpus | csmining.org | spam / ham | _To be verified_ | _TBD_ | _TBD_ |
-
-> ⚠️ PhishTank and OpenPhish are URL-only databases. They are **not** email datasets and are not used for the core email classifier.
-
----
-
-## Data Preprocessing
-
-> _This section will be completed after preprocessing module is implemented._
-
-Key steps:
-1. HTML parsing (extract plain text; count links, forms)
-2. Encoding normalization
-3. Lowercase conversion
-4. URL extraction + token replacement (URL not visited)
-5. Email address extraction + token replacement
-6. IP address detection
-7. Whitespace normalization
-8. Punctuation handling (preserve ! and ?)
-9. Tokenization
-10. Stop-word removal (custom list preserving security-relevant terms)
-
----
-
-## Feature Engineering
-
-> _This section will be completed after feature engineering module is implemented._
-
-Two feature types:
-- **TF-IDF**: unigrams + bigrams, max 10,000 features, fitted on training data only
-- **Cybersecurity features**: URL count, IP URLs, shortened URLs, urgency score, credential score, etc.
-
----
-
-## ML Models
-
-> _This section will be completed after model training and evaluation._
-
-Three models are trained and compared:
-1. Multinomial Naive Bayes
-2. Logistic Regression (class_weight='balanced')
-3. Linear SVM (class_weight='balanced')
-
-**Selection priority:** Phishing Recall → Macro F1 → Overall Accuracy
-
-Final model is selected after evaluation on the held-out test set. No target accuracy is pre-assumed.
-
----
-
-## Evaluation Methodology
-
-> _Actual metrics will be added after evaluation._
-
-- 80/20 stratified train/test split, random_state=42
-- Metrics: Accuracy, Precision, Recall, F1 (macro & weighted), per-class metrics
-- Special focus: Phishing Recall and Phishing Precision
-- Confusion matrix saved to `reports/figures/`
-
----
-
-## Screenshots
-
-> _Screenshots will be added after UI is implemented._
+```
+email-spam-phishing-filter/
+├── data/
+│   ├── raw/
+│   │   ├── enron_spam.csv          ← Download from Kaggle
+│   │   ├── spamassassin/           ← SpamAssassin corpus (optional)
+│   │   ├── CSDMC2010/              ← CSDMC2010 corpus (optional)
+│   │   ├── nazario/                ← Nazario phishing corpus
+│   │   └── iwspa_ap/               ← IWSPA-AP fallback (optional)
+│   └── processed/
+│       ├── dataset.csv             ← Generated by prepare_dataset.py
+│       └── dataset_metadata.json  ← Source stats and counts
+├── src/
+│   ├── __init__.py
+│   ├── prepare_dataset.py          ← Phase 2: dataset pipeline
+│   ├── preprocessing.py            ← Phase 3: text preprocessing
+│   ├── eda.py                      ← Phase 4: exploratory data analysis
+│   ├── feature_engineering.py      ← Phase 7: security feature extractor
+│   ├── train.py                    ← Phase 8: training + model selection
+│   ├── evaluate.py                 ← Phase 8: evaluation report + figures
+│   ├── phishing_detector.py        ← Phase 9: heuristic risk engine
+│   └── predict.py                  ← Phase 10: unified prediction pipeline
+├── models/
+│   ├── tfidf_vectorizer.joblib     ← Generated by train.py
+│   ├── label_encoder.joblib        ← Generated by train.py
+│   ├── feature_scaler.joblib       ← Generated by train.py
+│   ├── best_model.joblib           ← Generated by train.py
+│   └── training_results.json       ← Training metadata + all model results
+├── app/
+│   ├── app.py                      ← Streamlit main page (Email Analyzer)
+│   └── pages/
+│       ├── 1_model_info.py
+│       ├── 2_dataset_stats.py
+│       ├── 3_evaluation.py
+│       └── 4_about.py
+├── tests/
+│   ├── __init__.py
+│   ├── test_preprocessing.py       ← 17 tests
+│   ├── test_feature_engineering.py ← 15 tests
+│   ├── test_phishing_detector.py   ← 14 tests
+│   └── test_predict.py             ← 17 tests (16 skip until model trained)
+├── reports/
+│   └── figures/                    ← EDA and confusion matrix PNG files
+├── requirements.txt
+├── README.md
+└── .gitignore
+```
 
 ---
 
@@ -185,70 +160,225 @@ Final model is selected after evaluation on the held-out test set. No target acc
 - pip
 - Git
 
-### Steps
+### Steps (Windows PowerShell)
 
-```bash
+```powershell
 # 1. Clone the repository
 git clone https://github.com/YOUR_USERNAME/email-spam-phishing-filter.git
 cd email-spam-phishing-filter
 
-# 2. Create a virtual environment
+# 2. Create and activate a virtual environment
 python -m venv .venv
+.venv\Scripts\Activate.ps1
 
-# 3. Activate the virtual environment
-# Windows:
-.venv\Scripts\activate
-# macOS/Linux:
-source .venv/bin/activate
-
-# 4. Install dependencies
+# 3. Install dependencies
 pip install -r requirements.txt
-
-# 5. Download NLTK data
-python -c "import nltk; nltk.download('stopwords'); nltk.download('punkt')"
 ```
 
 ---
 
-## Running Locally
+## Dataset Sources and Download Instructions
 
-> _Dataset download and model training instructions will be added in Phase 2 and Phase 7._
+> ⚠️ Raw email files are excluded from this repository. Download and place them as described below.
 
-```bash
-# After datasets are prepared and model is trained:
+### Dataset A — Enron Spam (required)
+
+- **Source:** https://www.kaggle.com/datasets/wanderfj/enron-spam
+- **License:** Verify on Kaggle before use.
+- **Format:** Single CSV file with columns: `subject`, `message`, `label` (0=ham, 1=spam)
+- **Placement:** `data/raw/enron_spam.csv`
+
+### Dataset B — Nazario Phishing Corpus (required for phishing class)
+
+- **Source:** https://monkey.org/~jose/phishing/
+- **License:** Research use only. Do not redistribute raw emails. Verify current terms.
+- **Format:** Individual `.eml` or `.txt` files, or a single `.mbox` file
+- **Placement options:**
+  - Individual files: `data/raw/nazario/` (any `.txt` or `.eml` inside)
+  - Mbox file: `data/raw/nazario_phishing.mbox`
+
+### Dataset C — SpamAssassin Public Corpus (optional extra spam/ham)
+
+- **Source:** https://spamassassin.apache.org/old/publiccorpus/
+- **Placement:** `data/raw/spamassassin/easy_ham/`, `hard_ham/`, `spam/`, `spam_2/`
+
+### Dataset D — CSDMC2010 (optional extra spam/ham)
+
+- **Source:** http://csmining.org/index.php/spam-email-datasets-.html
+- **Placement:** `data/raw/CSDMC2010/TRAIN/` with `SPAMTrain.label` and `TRAIN_n.eml`
+
+---
+
+## Dataset Preparation
+
+```powershell
+python -m src.prepare_dataset
+```
+
+This generates:
+- `data/processed/dataset.csv` — unified dataset with columns: `subject, body, label`
+- `data/processed/dataset_metadata.json` — source stats, class counts, removal counts
+
+---
+
+## Exploratory Data Analysis
+
+```powershell
+python -m src.eda
+```
+
+Saves figures to `reports/figures/`:
+- `class_distribution.png`
+- `body_length_distribution.png`
+- `subject_length_distribution.png`
+- `top_words_by_class.png`
+
+---
+
+## Training
+
+```powershell
+python -m src.train
+```
+
+Trains MultinomialNB, LogisticRegression, and LinearSVC. Selects the best model by:
+1. Phishing Recall (highest priority)
+2. Macro F1
+3. Overall Accuracy
+
+Saves artefacts to `models/`.
+
+---
+
+## Evaluation
+
+```powershell
+python -m src.evaluate
+```
+
+Prints full classification report and saves confusion matrix to `reports/figures/confusion_matrix.png`.
+
+---
+
+## Running the Application
+
+```powershell
 streamlit run app/app.py
 ```
 
+The application has five sections:
+1. **Email Analyzer** — input + prediction + risk assessment
+2. **Model Information** — architecture, feature list, model comparison
+3. **Dataset Statistics** — class counts, sources, EDA figures
+4. **Model Evaluation** — confusion matrix, per-class metrics
+5. **About & Limitations** — security properties, limitations, disclaimer
+
 ---
 
-## Deployment
+## Testing
 
-> _Deployment URL and instructions will be added after Phase 15._
+```powershell
+python -m pytest tests/ -v
+```
 
-Deployment target: Streamlit Community Cloud
+Expected output:
+- `test_preprocessing.py` — 17 tests, all pass
+- `test_feature_engineering.py` — 15 tests, all pass
+- `test_phishing_detector.py` — 14 tests, all pass (no model required)
+- `test_predict.py` — 1 pass + 16 skip (skips resolve after training)
+
+After training:
+
+```powershell
+python -m pytest tests/ -v
+```
+
+All 48 tests should pass.
+
+---
+
+## Dataset Statistics
+
+> _To be filled after `python -m src.prepare_dataset` is run with downloaded datasets._
+
+| Class | Records | Source |
+|---|---|---|
+| Legitimate | TBD | Enron (ham) |
+| Spam | TBD | Enron (spam) |
+| Phishing | TBD | Nazario |
+| **Total** | **TBD** | — |
+
+---
+
+## Model Results
+
+> _To be filled after `python -m src.train` is run._
+
+| Model | Accuracy | Macro F1 | Phishing Recall |
+|---|---|---|---|
+| MultinomialNB | TBD | TBD | TBD |
+| LogisticRegression | TBD | TBD | TBD |
+| LinearSVC (calibrated) | TBD | TBD | TBD |
+| **Selected model** | **TBD** | **TBD** | **TBD** |
+
+---
+
+## Security Considerations
+
+| Property | Status |
+|---|---|
+| URLs visited | ❌ Never |
+| HTML executed | ❌ Never |
+| Email content stored | ❌ Never |
+| Input size limit | ✅ 100 KB per field |
+| Hardcoded secrets | ❌ None |
+| External API calls | ❌ None |
+| eval/exec on content | ❌ Never |
+
+Heuristic risk thresholds are `HEURISTIC_DEFAULT` values and are **not** scientifically validated security thresholds.
 
 ---
 
 ## Project Limitations
 
-- Dataset quality and coverage affect model performance.
-- Model is trained on English-language emails only.
-- Novel phishing techniques not present in the training corpus may be missed.
-- URL-based analysis is text-only; no URL reputation or domain age lookup is performed.
-- Risk thresholds are heuristic initial values, not scientifically validated security thresholds.
-- The system is a detection aid and does not guarantee 100% accuracy.
+1. Model performance depends on training corpus quality and coverage.
+2. English-language emails only.
+3. Text-only URL analysis — no live domain reputation lookup.
+4. Risk thresholds are heuristic initial values.
+5. Novel phishing techniques absent from the corpus may be missed.
+6. Class imbalance (phishing is typically a small minority) may reduce phishing recall.
 
 ---
 
-## Future Scope
+## Deployment Instructions
 
-- Transformer-based NLP (BERT/RoBERTa) for improved text understanding
+### Streamlit Community Cloud
+
+1. Push the trained model artefacts (`models/*.joblib`) to GitHub if their size permits (< 100 MB each), or use Git LFS.
+2. Go to https://streamlit.io/cloud and sign in with GitHub.
+3. Click **New app** → select repository → set **Main file path** to `app/app.py`.
+4. Click **Deploy**.
+5. Verify the live URL provided by Streamlit.
+
+> **Note:** Deployment requires `models/*.joblib` files to be accessible at runtime. If they are excluded from the repository, the analyzer page will display a clear error message and instructions.
+
+### Verifying `.gitignore` for deployment
+
+The current `.gitignore` excludes `models/*.joblib`. Before deploying, either:
+- Remove that rule to commit trained artefacts (check file size first), or
+- Upload artefacts separately or use Git LFS.
+
+---
+
+## Future Improvements
+
+- Transformer-based NLP (BERT / RoBERTa)
 - Multilingual phishing detection
 - Real-time email client integration
-- URL reputation API integration
+- URL reputation API integration (opt-in)
+- SHAP / LIME explainability
 - Attachment analysis
 - Continual learning with new phishing samples
-- Explainable AI (LIME/SHAP) for model explanations
 - Browser or email plugin
 
 ---
