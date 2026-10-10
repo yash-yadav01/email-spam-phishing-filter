@@ -27,6 +27,7 @@ notebooks/.ipynb_checkpoints/
 .env
 .env.*
 secrets.toml
+.streamlit/secrets.toml
 
 # ── OS artefacts ─────────────────────────────────────────────────────────────
 .DS_Store
