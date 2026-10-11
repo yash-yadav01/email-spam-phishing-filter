@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # AI-Based Email Spam and Phishing Detection System Using NLP and Machine Learning
 
 **Short name:** Email Spam & Phishing Filter  
@@ -390,3 +391,7 @@ MIT License — see [LICENSE](LICENSE) for details.
 ---
 
 > **Disclaimer:** This system is an ML-based analysis aid. It does not guarantee detection of all spam or phishing emails. Do not rely solely on this tool for security decisions.
+=======
+# email-spam-phishing-filter
+ This project builds a three-class classifier that categorises each email as **Legitimate**, **Spam**, or **Phishing**, using both NLP-based TF-IDF text features and a separate cybersecurity heuristic risk engine.
+>>>>>>> 4e68e7b6cf90e4b32683aa469c9e0daa887d8970
