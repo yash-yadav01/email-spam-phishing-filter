@@ -17,7 +17,7 @@ data/raw/
 # ── Trained model artefacts ───────────────────────────────────────────────────
 # Remove this line once models are trained, file sizes confirmed < 100 MB,
 # and you are ready to commit them for deployment.
-models/*.joblib
+# models/*.joblib
 
 # ── Jupyter notebook checkpoints ─────────────────────────────────────────────
 notebooks/.ipynb_checkpoints/
