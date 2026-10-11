@@ -1,0 +1,29 @@
+{
+  "preparation_timestamp_utc": "2026-10-11T16:51:52.866355+00:00",
+  "output_file": "data\\processed\\dataset.csv",
+  "total_records": 46466,
+  "class_counts": {
+    "legitimate": 21396,
+    "spam": 23508,
+    "phishing": 1562
+  },
+  "empty_records_removed": 82488,
+  "duplicates_removed": 58,
+  "sources": [
+    {
+      "name": "Enron Spam Dataset",
+      "file": "enron_spam.csv",
+      "source_url": "https://www.kaggle.com/datasets/wanderfj/enron-spam",
+      "license_note": "Verify license on Kaggle before use.",
+      "records_loaded": 127449
+    },
+    {
+      "name": "Nazario Phishing Corpus",
+      "directory": "data/raw/nazario/",
+      "source_url": "https://monkey.org/~jose/phishing/",
+      "license_note": "Research use only. Do not redistribute raw emails. Verify current terms.",
+      "records_loaded": 1563
+    }
+  ],
+  "note": "All statistics reflect the actual prepared dataset. Verify dataset licenses independently before any publication or redistribution."
+}

@@ -10,9 +10,15 @@ Streamlit application — main entry point (Email Analyzer).
 from __future__ import annotations
 
 import json
+import sys
 from pathlib import Path
 
 import streamlit as st
+
+# ── Ensure project root is on sys.path so `src` package is importable ─────────
+PROJECT_ROOT  = Path(__file__).resolve().parent.parent
+if str(PROJECT_ROOT) not in sys.path:
+    sys.path.insert(0, str(PROJECT_ROOT))
 
 # ── Page config ───────────────────────────────────────────────────────────────
 st.set_page_config(
@@ -22,7 +28,6 @@ st.set_page_config(
     initial_sidebar_state="expanded",
 )
 
-PROJECT_ROOT  = Path(__file__).resolve().parent.parent
 MODELS_DIR    = PROJECT_ROOT / "models"
 RESULTS_JSON  = MODELS_DIR / "training_results.json"
 
@@ -82,6 +87,13 @@ st.markdown(
 st.markdown("---")
 
 # ── Input form ────────────────────────────────────────────────────────────────
+
+# Apply any staged values from quick-example / clear buttons BEFORE widgets render
+for _key in ("subject", "body"):
+    _stage = f"_{_key}_stage"
+    if _stage in st.session_state:
+        st.session_state[_key] = st.session_state.pop(_stage)
+
 col1, col2 = st.columns([3, 1])
 
 with col1:
@@ -102,23 +114,23 @@ with col1:
 with col2:
     st.markdown("### Quick Examples")
     if st.button("📬 Legitimate"):
-        st.session_state["subject"] = "Meeting rescheduled to 3pm"
-        st.session_state["body"] = (
+        st.session_state["_subject_stage"] = "Meeting rescheduled to 3pm"
+        st.session_state["_body_stage"] = (
             "Hi team,\n\nThe weekly sync has been moved to 3:00 PM on Thursday. "
             "Please update your calendars accordingly.\n\nBest,\nAlice"
         )
         st.rerun()
     if st.button("📧 Spam"):
-        st.session_state["subject"] = "WIN $1,000,000 — Claim NOW!!!"
-        st.session_state["body"] = (
+        st.session_state["_subject_stage"] = "WIN $1,000,000 — Claim NOW!!!"
+        st.session_state["_body_stage"] = (
             "Congratulations! You have been selected as the winner of our lottery! "
             "Click here to claim your prize money of one million dollars!!!! "
             "Limited time offer — act now before it expires!!!"
         )
         st.rerun()
     if st.button("🎣 Phishing"):
-        st.session_state["subject"] = "Urgent: Verify your account immediately"
-        st.session_state["body"] = (
+        st.session_state["_subject_stage"] = "Urgent: Verify your account immediately"
+        st.session_state["_body_stage"] = (
             "Dear Customer,\n\nWe have detected suspicious activity on your account. "
             "Your account will be suspended within 24 hours unless you verify your credentials.\n\n"
             "Click here to login: http://192.168.1.1/verify-account\n\n"
@@ -133,8 +145,8 @@ st.markdown("---")
 analyze_col, clear_col, _ = st.columns([2, 1, 4])
 analyze = analyze_col.button("🔍 Analyze Email", type="primary")
 if clear_col.button("🗑️ Clear"):
-    st.session_state["subject"] = ""
-    st.session_state["body"]    = ""
+    st.session_state["_subject_stage"] = ""
+    st.session_state["_body_stage"]    = ""
     st.rerun()
 
 if analyze:

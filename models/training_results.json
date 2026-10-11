@@ -1,0 +1,181 @@
+{
+  "trained_at_utc": "2026-10-11T16:55:43.417669+00:00",
+  "dataset": "data\\processed\\dataset.csv",
+  "train_samples": 37172,
+  "test_samples": 9294,
+  "tfidf_max_features": 10000,
+  "feature_names_security": [
+    "url_count",
+    "has_ip_url",
+    "has_shortened_url",
+    "suspicious_url_score",
+    "html_link_count",
+    "html_form_count",
+    "email_count",
+    "exclamation_count",
+    "uppercase_ratio",
+    "urgency_score",
+    "credential_score",
+    "financial_score",
+    "verification_score",
+    "subject_urgency"
+  ],
+  "best_model": "LogisticRegression",
+  "selection_criteria": "Phishing Recall > Macro F1 > Accuracy",
+  "all_results": [
+    {
+      "model_name": "MultinomialNB",
+      "accuracy": 0.9571,
+      "macro_f1": 0.9532,
+      "weighted_f1": 0.9571,
+      "phishing_recall": 0.984,
+      "phishing_precision": 0.9083,
+      "per_class": {
+        "legitimate": {
+          "precision": 0.9222,
+          "recall": 0.9946,
+          "f1": 0.9571
+        },
+        "phishing": {
+          "precision": 0.9083,
+          "recall": 0.984,
+          "f1": 0.9446
+        },
+        "spam": {
+          "precision": 0.9979,
+          "recall": 0.9211,
+          "f1": 0.958
+        }
+      },
+      "confusion_matrix": [
+        [
+          4257,
+          15,
+          8
+        ],
+        [
+          4,
+          307,
+          1
+        ],
+        [
+          355,
+          16,
+          4331
+        ]
+      ],
+      "class_order": [
+        "legitimate",
+        "phishing",
+        "spam"
+      ],
+      "classification_report": "              precision    recall  f1-score   support\n\n  legitimate       0.92      0.99      0.96      4280\n    phishing       0.91      0.98      0.94       312\n        spam       1.00      0.92      0.96      4702\n\n    accuracy                           0.96      9294\n   macro avg       0.94      0.97      0.95      9294\nweighted avg       0.96      0.96      0.96      9294\n"
+    },
+    {
+      "model_name": "LogisticRegression",
+      "accuracy": 0.9913,
+      "macro_f1": 0.9848,
+      "weighted_f1": 0.9913,
+      "phishing_recall": 0.9936,
+      "phishing_precision": 0.948,
+      "per_class": {
+        "legitimate": {
+          "precision": 0.9923,
+          "recall": 0.9918,
+          "f1": 0.9921
+        },
+        "phishing": {
+          "precision": 0.948,
+          "recall": 0.9936,
+          "f1": 0.9703
+        },
+        "spam": {
+          "precision": 0.9934,
+          "recall": 0.9906,
+          "f1": 0.992
+        }
+      },
+      "confusion_matrix": [
+        [
+          4245,
+          4,
+          31
+        ],
+        [
+          2,
+          310,
+          0
+        ],
+        [
+          31,
+          13,
+          4658
+        ]
+      ],
+      "class_order": [
+        "legitimate",
+        "phishing",
+        "spam"
+      ],
+      "classification_report": "              precision    recall  f1-score   support\n\n  legitimate       0.99      0.99      0.99      4280\n    phishing       0.95      0.99      0.97       312\n        spam       0.99      0.99      0.99      4702\n\n    accuracy                           0.99      9294\n   macro avg       0.98      0.99      0.98      9294\nweighted avg       0.99      0.99      0.99      9294\n"
+    },
+    {
+      "model_name": "LinearSVC_calibrated",
+      "accuracy": 0.9944,
+      "macro_f1": 0.9917,
+      "weighted_f1": 0.9944,
+      "phishing_recall": 0.984,
+      "phishing_precision": 0.9871,
+      "per_class": {
+        "legitimate": {
+          "precision": 0.9935,
+          "recall": 0.9958,
+          "f1": 0.9946
+        },
+        "phishing": {
+          "precision": 0.9871,
+          "recall": 0.984,
+          "f1": 0.9856
+        },
+        "spam": {
+          "precision": 0.9957,
+          "recall": 0.9938,
+          "f1": 0.9948
+        }
+      },
+      "confusion_matrix": [
+        [
+          4262,
+          1,
+          17
+        ],
+        [
+          2,
+          307,
+          3
+        ],
+        [
+          26,
+          3,
+          4673
+        ]
+      ],
+      "class_order": [
+        "legitimate",
+        "phishing",
+        "spam"
+      ],
+      "classification_report": "              precision    recall  f1-score   support\n\n  legitimate       0.99      1.00      0.99      4280\n    phishing       0.99      0.98      0.99       312\n        spam       1.00      0.99      0.99      4702\n\n    accuracy                           0.99      9294\n   macro avg       0.99      0.99      0.99      9294\nweighted avg       0.99      0.99      0.99      9294\n"
+    }
+  ],
+  "class_counts_train": {
+    "spam": 18806,
+    "legitimate": 17116,
+    "phishing": 1250
+  },
+  "class_counts_test": {
+    "spam": 4702,
+    "legitimate": 4280,
+    "phishing": 312
+  }
+}
